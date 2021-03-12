@@ -1,0 +1,68 @@
+---
+title: "oWell"
+author: "Daniil S"
+date: "2/20/2021"
+output: html_document
+---
+
+```{r}
+# github.monte
+which.github = "local";  # local ... remote 
+
+github.local = "C:/_git_/github/daniilsagun/WSU_STAT419_2021/";
+github.remote = "https://github.com/daniilsagun/WSU_STATS419_2021";
+
+if(which.github == "remote")
+  {
+  mypath = paste0(github.remote, "/workspace/o-well/")
+  # include.me = paste0( github.remote, "functions/functions-intro.R");
+  # library(devtools);
+  # source_url(include.me);
+  } else {
+          mypath = paste0(github.local, "/workspace/o-well")
+          # include.me = paste0( github.local, "functions/functions-intro.R");
+          # source(include.me);
+          }
+
+```
+#read in data
+```{r}
+path.data = paste0(mypath, "data/")
+owell.metals = read.csv("owell.metals.csv")
+owell.chemistry = read.csv("owell.chemistry.csv")
+owell.locations = read.csv("owell.location.csv")
+owell.distance = read.csv("owell.distance.csv")
+owell.geology = c("Sand","Alkaline,Granite","Alkaline","Alkaline","Granite,Volcanic","Volcanic","Gypsum","Alkaline","Gypsum","Volcanic","Alkaline","Granite","Gypsum","Gypsum","Volcanic","Granite,Alkaline,Volcanic","Gypsum","Sand","Sand","Sand","Sand","Sand","Alkaline,Granite")
+```
+  
+#apend location info with well info
+```{r}
+owell.metals = cbind(owell.metals,owell.locations)
+owell.chemistry = cbind(owell.chemistry,owell.locations)
+```
+#apend distance to fault with well infor
+```{r}
+owell.metals = cbind(owell.metals,owell.distance)
+owell.chemistry = cbind(owell.chemistry,owell.distance)
+```
+#apend geology information into array
+```{r}
+owell.metals = cbind(owell.metals,owell.geology)
+owell.chemistry = cbind(owell.chemistry,owell.geology)
+```
+#creat list of saudi weell data
+```{r}
+wells = list();
+	wells$saudi = list();
+	wells$saudi$metals = owell.metals;
+	wells$saudi$chemistry = owell.chemistry
+```
+
+
+#save to file
+```{r}
+
+saveRDS(wells,"well.rds")
+
+```
+
